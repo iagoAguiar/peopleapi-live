@@ -4,22 +4,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import one.digitalInnovation.personapi.entity.Person;
-
-
 @RestController
-@RequestMapping("/api/v1/people")
-public class PersonController {
+@RequestMapping("/")
+public class HomePageController {
 
-	
 	@GetMapping
-	public String getBook() {
-		
-		
-		return "API Test!";
+	public String getHomePage() {
+		return "Bem vindo a página inicial!!";
 	}
-	
-	
-	
 	
 }
