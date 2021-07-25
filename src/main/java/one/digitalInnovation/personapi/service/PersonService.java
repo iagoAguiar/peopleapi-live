@@ -10,13 +10,16 @@ import one.digitalInnovation.personapi.entity.Person;
 import one.digitalInnovation.personapi.mapper.PersonMapper;
 import one.digitalInnovation.personapi.repository.PersonRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 	
 	 private PersonRepository personRepository;
 
-	 private final PersonMapper personMapper;
+	 private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
 
 	public MessageResponseDTO createPerson(PersonDTO personDTO) {
@@ -27,7 +30,7 @@ public class PersonService {
 
 	        return messageResponse;
 	    }
-	  
+
 	private MessageResponseDTO createMessageResponse(String message, Long id ) {
         return MessageResponseDTO
                 .builder()
@@ -36,4 +39,9 @@ public class PersonService {
     }
 
 
+	public List<PersonDTO> listALL() {
+		List<Person> allPeople = personRepository.findAll();
+
+		return allPeople.stream().map(personMapper::toDTO).collect(Collectors.toList());
+	}
 }
