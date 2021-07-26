@@ -1,5 +1,6 @@
 package one.digitalInnovation.personapi.service;
 
+import one.digitalInnovation.personapi.exception.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,13 @@ import one.digitalInnovation.personapi.mapper.PersonMapper;
 import one.digitalInnovation.personapi.repository.PersonRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
-	
+
 	 private PersonRepository personRepository;
 
 	 private final PersonMapper personMapper = PersonMapper.INSTANCE;
@@ -44,4 +46,30 @@ public class PersonService {
 
 		return allPeople.stream().map(personMapper::toDTO).collect(Collectors.toList());
 	}
+
+
+	public PersonDTO findById(Long id) throws PersonNotFoundException {
+		//Optional<Person> optionalPerson = personRepository.findById(id);
+		Person person = verifyIfExists(id);
+
+		return personMapper.toDTO(person);
+	}
+
+	public void delete(Long id) throws PersonNotFoundException {
+		verifyIfExists(id);
+		personRepository.deleteById(id);
+	}
+
+	private Person verifyIfExists(Long id) throws PersonNotFoundException {
+		return personRepository.findById(id)
+				.orElseThrow(() -> new PersonNotFoundException(id));
+	}
+
+
 }
+
+
+
+
+
+

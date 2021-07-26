@@ -2,6 +2,7 @@ package one.digitalInnovation.personapi.controller;
 
 import javax.validation.Valid;
 
+import one.digitalInnovation.personapi.exception.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,16 @@ public class PersonController {
     public List<PersonDTO> listAll(){
         return personService.listALL();
 
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findById(id);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
+        personService.delete(id);
     }
 }
