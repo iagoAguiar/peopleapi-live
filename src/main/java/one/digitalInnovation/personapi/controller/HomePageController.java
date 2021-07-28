@@ -10,7 +10,7 @@ public class HomePageController {
 
 	@GetMapping
 	public String getHomePage() {
-		return "Bem vindo a página inicial!!";
+		return "Bem vindo(a) a página inicial!!";
 	}
 	
 }
